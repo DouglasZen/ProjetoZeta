@@ -3,9 +3,9 @@
     <translate xmlns:android="http://schemas.android.com/apk/res/android"
         android:fromYDelta="100%p"
         android:duration="1000"/>
-    <alpha xmlns:android="http://schemas.android.com/apk/res/android"
+    <!--<alpha xmlns:android="http://schemas.android.com/apk/res/android"
         android:interpolator="@android:anim/accelerate_interpolator"
         android:fromAlpha="0.0"
         android:toAlpha="1.0"
-        android:duration="1000" />
+        android:duration="1000" />-->
 </set>
