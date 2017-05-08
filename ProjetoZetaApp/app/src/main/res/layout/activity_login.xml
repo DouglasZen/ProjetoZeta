@@ -15,13 +15,14 @@
         android:layout_margin="@dimen/activity_horizontal_margin"
         app:srcCompat="@drawable/logotarsus" />
 
-    <Button
-        android:id="@+id/button6"
-        android:layout_width="match_parent"
+    <com.facebook.login.widget.LoginButton
+        android:id="@+id/faceBut"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:layout_margin="@dimen/activity_horizontal_margin"
-        android:text="Button" />
+        android:layout_gravity="center"
+
+
+        />
 
 
     <Button

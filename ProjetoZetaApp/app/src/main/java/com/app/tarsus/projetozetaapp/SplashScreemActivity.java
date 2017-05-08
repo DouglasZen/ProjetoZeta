@@ -9,6 +9,8 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
+import com.facebook.AccessToken;
+
 import java.util.Timer;
 
 public class SplashScreemActivity extends AppCompatActivity {
@@ -24,21 +26,31 @@ public class SplashScreemActivity extends AppCompatActivity {
             @Override
             public void run() {
                 // COLOCAR A VERIFICACAO DE USUÁRIO LOGADO AQUI
-
-
-
-
-                Animation animation = AnimationUtils.loadAnimation(SplashScreemActivity.this, R.anim.zoom_circle);
-                image.startAnimation(animation);
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        Intent i=new Intent(SplashScreemActivity.this, LoginActivity.class);
-                        startActivity(i);
-                    }
-                }, 150);
+                if(AccessToken.getCurrentAccessToken() == null) {
+                    Animation animation = AnimationUtils.loadAnimation(SplashScreemActivity.this, R.anim.zoom_circle);
+                    image.startAnimation(animation);
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            Intent i = new Intent(SplashScreemActivity.this, LoginActivity.class);
+                            startActivity(i);
+                        }
+                    }, 150);
+                }else{
+                    Animation animation = AnimationUtils.loadAnimation(SplashScreemActivity.this, R.anim.zoom_circle);
+                    image.startAnimation(animation);
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            Intent i = new Intent(SplashScreemActivity.this, MainActivity.class);
+                            startActivity(i);
+                        }
+                    }, 150);
+                }
                 //overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
             }
         }, 2000);
     }
+
+
 }
