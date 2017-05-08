@@ -35,15 +35,14 @@ public class SplashScreemActivity extends AppCompatActivity {
                             Intent i = new Intent(SplashScreemActivity.this, LoginActivity.class);
                             startActivity(i);
                         }
-                    }, 150);
+                    }, 0);
                 }else{
                     Animation animation = AnimationUtils.loadAnimation(SplashScreemActivity.this, R.anim.zoom_circle);
                     image.startAnimation(animation);
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            Intent i = new Intent(SplashScreemActivity.this, MainActivity.class);
-                            startActivity(i);
+                            goMain();
                         }
                     }, 150);
                 }
@@ -52,5 +51,9 @@ public class SplashScreemActivity extends AppCompatActivity {
         }, 2000);
     }
 
-
+    private void goMain(){
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+    }
 }

@@ -1,6 +1,7 @@
 package com.app.tarsus.projetozetaapp;
 
 import android.content.Intent;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -19,26 +20,29 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
-        callbackManager = CallbackManager.Factory.create();
-        loginButton = (LoginButton) findViewById(R.id.faceBut);
-        loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+        new Handler().post(new Runnable() {
             @Override
-            public void onSuccess(LoginResult loginResult) {
-                goMain();
-            }
+            public void run() {
+                callbackManager = CallbackManager.Factory.create();
+                loginButton = (LoginButton) findViewById(R.id.faceBut);
+                loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+                    @Override
+                    public void onSuccess(LoginResult loginResult) {
+                        goMain();
+                    }
 
-            @Override
-            public void onCancel() {
+                    @Override
+                    public void onCancel() {
 
-            }
+                    }
 
-            @Override
-            public void onError(FacebookException error) {
+                    @Override
+                    public void onError(FacebookException error) {
 
+                    }
+                });
             }
         });
-
     }
 
     private void goMain(){

@@ -48,6 +48,7 @@
         app:menu_colorRipple="#99FFFFFF"
         app:menu_animationDelayPerItem="50"
         app:menu_icon="@drawable/icone_menu_branco"
+        app:menu_buttonToggleAnimation="@anim/fab_scale_down"
         app:menu_buttonSpacing="0dp"
         >
         <!--app:menu_labels_margin="0dp"
