@@ -4,6 +4,7 @@ import android.*;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.graphics.drawable.Icon;
 import android.location.Location;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -12,9 +13,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.BounceInterpolator;
 import android.widget.ImageButton;
 
 import com.facebook.login.LoginManager;
+import com.github.clans.fab.FloatingActionMenu;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
@@ -47,6 +50,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 .addOnConnectionFailedListener(this)
                 .addApi(LocationServices.API)
                 .build();
+
+        FloatingActionMenu fam = (FloatingActionMenu) findViewById(R.id.menu);
+        fam.setIconAnimated(false);
     }
 
     public void sair(View view){
