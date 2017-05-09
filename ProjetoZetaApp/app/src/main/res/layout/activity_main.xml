@@ -17,16 +17,7 @@
         tools:layout_editor_absoluteX="8dp"
         tools:layout_editor_absoluteY="0dp" />
 
-    <ImageButton
-        android:id="@+id/imageButton"
-        android:layout_width="65dp"
-        android:layout_height="65dp"
-        android:background="@drawable/oval"
-        android:onClick="sair"
-        android:src="@drawable/menu"
-        android:layout_marginRight="@dimen/activity_horizontal_margin"
-        android:layout_marginTop="30dp"
-        android:layout_alignParentRight="true"/>
+
 
     <com.github.clans.fab.FloatingActionMenu
         android:id="@+id/menu"
@@ -77,6 +68,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/icone_logout_mini_branco"
+            android:onClick="sair"
             app:menu_colorNormal="#DA4336"
             app:menu_colorPressed="#E75043"
             app:fab_size="mini"
