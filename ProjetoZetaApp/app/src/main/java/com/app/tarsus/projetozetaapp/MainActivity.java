@@ -1,22 +1,26 @@
 package com.app.tarsus.projetozetaapp;
 
-import android.*;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
-import android.graphics.drawable.Icon;
 import android.location.Location;
+import android.os.Parcel;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.BounceInterpolator;
-import android.widget.ImageButton;
+import android.widget.SearchView;
 
+import com.arlib.floatingsearchview.FloatingSearchView;
+import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion;
 import com.facebook.login.LoginManager;
+import com.flipboard.bottomsheet.BottomSheetLayout;
 import com.github.clans.fab.FloatingActionMenu;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -29,30 +33,82 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener{
 
     private GoogleApiClient mGoogleApiClient;
     protected GoogleMap map;
-    private SupportMapFragment mapFragment;
-    private ImageButton floatButton;
+    private FloatingSearchView mSearchView;
+    private BottomSheetLayout bottomSheet;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mSearchView = (FloatingSearchView) findViewById(R.id.floating_search_view);
+        bottomSheet = (BottomSheetLayout) findViewById(R.id.bottomsheet);
+        bottomSheet.setPeekOnDismiss(true);
+        carregaMapa();
+        configuraMenu();
+        configuraShearchBar();
+    }
 
+    public void showCards(View view){
+        new TesteFragment().show(getSupportFragmentManager(), R.id.bottomsheet);
+    }
 
+    private void configuraShearchBar(){
+        mSearchView.setOnQueryChangeListener(new FloatingSearchView.OnQueryChangeListener() {
+            @Override
+            public void onSearchTextChanged(String oldQuery, final String newQuery) {
 
-        mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+                //get suggestions based on newQuery
+                List<SearchSuggestion> suggestions = new ArrayList<SearchSuggestion>();
+                suggestions.add(0, new SearchSuggestion() {
+                    @Override
+                    public String getBody() {
+                        return "Teste";
+                    }
+
+                    @Override
+                    public int describeContents() {
+                        return 0;
+                    }
+
+                    @Override
+                    public void writeToParcel(Parcel dest, int flags) {
+
+                    }
+                });
+
+                //pass them on to the search view
+                mSearchView.swapSuggestions(suggestions);
+            }
+        });
+
+        mSearchView.setOnMenuItemClickListener(new FloatingSearchView.OnMenuItemClickListener() {
+            @Override
+            public void onActionMenuItemSelected(MenuItem item) {
+
+            }
+        });
+    }
+
+    private void configuraMenu(){
+        FloatingActionMenu fam = (FloatingActionMenu) findViewById(R.id.menu);
+        fam.setIconAnimated(false);
+    }
+
+    private void carregaMapa(){
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
         mGoogleApiClient = new GoogleApiClient.Builder(this).addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
                 .addApi(LocationServices.API)
                 .build();
-
-        FloatingActionMenu fam = (FloatingActionMenu) findViewById(R.id.menu);
-        fam.setIconAnimated(false);
     }
 
     public void sair(View view){
