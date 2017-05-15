@@ -12,11 +12,12 @@ import com.flipboard.bottomsheet.commons.BottomSheetFragment;
  * Created by Leandro on 10/05/2017.
  */
 
-public class TesteFragment extends BottomSheetFragment {
+public class FragmentCards extends BottomSheetFragment {
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.activity_teste, container, false);
+
+        return inflater.inflate(R.layout.activity_fragment_cards, container, false);
     }
 }

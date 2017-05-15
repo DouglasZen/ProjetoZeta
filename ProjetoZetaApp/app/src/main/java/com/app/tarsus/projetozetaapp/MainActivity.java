@@ -1,5 +1,7 @@
 package com.app.tarsus.projetozetaapp;
 
+import android.app.Fragment;
+import android.app.FragmentManager;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -48,15 +50,18 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mSearchView = (FloatingSearchView) findViewById(R.id.floating_search_view);
-        bottomSheet = (BottomSheetLayout) findViewById(R.id.bottomsheet);
-        bottomSheet.setPeekOnDismiss(true);
+        /*bottomSheet = (BottomSheetLayout) findViewById(R.id.bottomsheet);
+        bottomSheet.setPeekOnDismiss(true);*/
+
+        //FragmentManager fm = getFragmentManager();
+
         carregaMapa();
         configuraMenu();
         configuraShearchBar();
     }
 
     public void showCards(View view){
-        new TesteFragment().show(getSupportFragmentManager(), R.id.bottomsheet);
+        //new TesteFragment().show(getSupportFragmentManager(), R.id.bottomsheet);
     }
 
     private void configuraShearchBar(){
