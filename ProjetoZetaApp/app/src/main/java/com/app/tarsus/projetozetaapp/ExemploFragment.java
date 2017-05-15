@@ -31,6 +31,7 @@ public class ExemploFragment extends Fragment {
         LinearLayout.LayoutParams relativeParams = new LinearLayout.LayoutParams(linear.getLayoutParams());
 
         final int valorInicial = relativeParams.height - ((relativeParams.height/100)*10);
+        final int valor = relativeParams.height - ((relativeParams.height/100)*100);
         view.setY(valorInicial);
         //relativeParams.setMargins(20, 0, 20, (relativeParams.height * -1) + ((relativeParams.height/100)*10));
 
@@ -47,10 +48,10 @@ public class ExemploFragment extends Fragment {
                     v.animate().y(event.getRawY()).setDuration(0).start();
                     break;
                 case MotionEvent.ACTION_UP:
-                    if(event.getRawY() < height / 2)
-                        v.animate().y(valorInicial).setDuration(500).start();
+                    if(v.getY() < (valorInicial / 2))
+                        v.animate().y(valor).setDuration(500).start();
                     else
-                        v.animate().y(height).setDuration(500).start();
+                        v.animate().y(valorInicial).setDuration(500).start();
                     break;
                 default:
                     return false;
