@@ -13,6 +13,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -20,6 +21,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.SearchView;
+import android.widget.TextView;
 
 import com.arlib.floatingsearchview.FloatingSearchView;
 import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion;
@@ -46,6 +48,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     protected GoogleMap map;
     private FloatingSearchView mSearchView;
     private BottomSheetLayout bottomSheet;
+    Toolbar toolbar;
+    TextView titulo;
 
     private static final String[] testeLista = new String[]{"amora", "maçã", "laranja", "pera"};
 
@@ -53,6 +57,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        toolbar = (Toolbar) findViewById(R.id.toolbarTitulo);
+        titulo = (TextView) findViewById(R.id.labelTitulo);
         /*bottomSheet = (BottomSheetLayout) findViewById(R.id.bottomsheet);
         bottomSheet.setPeekOnDismiss(true);*/
 
@@ -63,6 +69,16 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
 
+    }
+
+    public void showToobar(boolean show){
+        if(show) {
+            toolbar.setVisibility(View.VISIBLE);
+            titulo.setVisibility(View.VISIBLE);
+        }else{
+            toolbar.setVisibility(View.INVISIBLE);
+            titulo.setVisibility(View.INVISIBLE);
+        }
     }
 
     public void showCards(View view){
@@ -100,6 +116,13 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             map.clear();
             map.addCircle(circle);
         }
+    }
+
+    public void mapTransparency(boolean aplicar){
+        if(aplicar)
+            getSupportFragmentManager().findFragmentById(R.id.map).getView().animate().alpha(0).setDuration(500).start();
+        else
+            getSupportFragmentManager().findFragmentById(R.id.map).getView().animate().alpha(1).setDuration(500).start();
     }
 
     @Override
