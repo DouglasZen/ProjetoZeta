@@ -17,6 +17,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.SearchView;
 
 import com.arlib.floatingsearchview.FloatingSearchView;
@@ -45,19 +47,22 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private FloatingSearchView mSearchView;
     private BottomSheetLayout bottomSheet;
 
+    private static final String[] testeLista = new String[]{"amora", "maçã", "laranja", "pera"};
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mSearchView = (FloatingSearchView) findViewById(R.id.floating_search_view);
         /*bottomSheet = (BottomSheetLayout) findViewById(R.id.bottomsheet);
         bottomSheet.setPeekOnDismiss(true);*/
 
         //FragmentManager fm = getFragmentManager();
 
         carregaMapa();
-        configuraMenu();
         configuraShearchBar();
+
+
+
     }
 
     public void showCards(View view){
@@ -65,46 +70,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     private void configuraShearchBar(){
-        mSearchView.setOnQueryChangeListener(new FloatingSearchView.OnQueryChangeListener() {
-            @Override
-            public void onSearchTextChanged(String oldQuery, final String newQuery) {
-
-                //get suggestions based on newQuery
-                List<SearchSuggestion> suggestions = new ArrayList<SearchSuggestion>();
-                suggestions.add(0, new SearchSuggestion() {
-                    @Override
-                    public String getBody() {
-                        return "Teste";
-                    }
-
-                    @Override
-                    public int describeContents() {
-                        return 0;
-                    }
-
-                    @Override
-                    public void writeToParcel(Parcel dest, int flags) {
-
-                    }
-                });
-
-                //pass them on to the search view
-                mSearchView.swapSuggestions(suggestions);
-            }
-        });
-
-        mSearchView.setOnMenuItemClickListener(new FloatingSearchView.OnMenuItemClickListener() {
-            @Override
-            public void onActionMenuItemSelected(MenuItem item) {
-
-            }
-        });
+        AutoCompleteTextView atv = (AutoCompleteTextView) findViewById(R.id.atResult);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, testeLista);
+        atv.setAdapter(adapter);
     }
 
-    private void configuraMenu(){
-        FloatingActionMenu fam = (FloatingActionMenu) findViewById(R.id.menu);
-        fam.setIconAnimated(false);
-    }
 
     private void carregaMapa(){
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
@@ -116,16 +86,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 .build();
     }
 
-    public void sair(View view){
-        LoginManager.getInstance().logOut();
-        goLogin();
-    }
 
-    private void goLogin() {
-        Intent intent = new Intent(this, LoginActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
-    }
 
     private void setMapLocation(Location l) {
         if(map != null && l != null){
