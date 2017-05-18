@@ -1,5 +1,7 @@
 package com.app.tarsus.projetozetaapp;
 
+import android.app.Fragment;
+import android.app.FragmentManager;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -11,11 +13,15 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.SearchView;
+import android.widget.TextView;
 
 import com.arlib.floatingsearchview.FloatingSearchView;
 import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion;
@@ -42,64 +48,49 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     protected GoogleMap map;
     private FloatingSearchView mSearchView;
     private BottomSheetLayout bottomSheet;
+    Toolbar toolbar;
+    TextView titulo;
+
+    private static final String[] testeLista = new String[]{"amora", "maçã", "laranja", "pera"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mSearchView = (FloatingSearchView) findViewById(R.id.floating_search_view);
-        bottomSheet = (BottomSheetLayout) findViewById(R.id.bottomsheet);
-        bottomSheet.setPeekOnDismiss(true);
+        toolbar = (Toolbar) findViewById(R.id.toolbarTitulo);
+        titulo = (TextView) findViewById(R.id.labelTitulo);
+        /*bottomSheet = (BottomSheetLayout) findViewById(R.id.bottomsheet);
+        bottomSheet.setPeekOnDismiss(true);*/
+
+        //FragmentManager fm = getFragmentManager();
+
         carregaMapa();
-        configuraMenu();
         configuraShearchBar();
+
+
+
+    }
+
+    public void showToobar(boolean show){
+        if(show) {
+            toolbar.setVisibility(View.VISIBLE);
+            titulo.setVisibility(View.VISIBLE);
+        }else{
+            toolbar.setVisibility(View.INVISIBLE);
+            titulo.setVisibility(View.INVISIBLE);
+        }
     }
 
     public void showCards(View view){
-        new TesteFragment().show(getSupportFragmentManager(), R.id.bottomsheet);
+        //new TesteFragment().show(getSupportFragmentManager(), R.id.bottomsheet);
     }
 
     private void configuraShearchBar(){
-        mSearchView.setOnQueryChangeListener(new FloatingSearchView.OnQueryChangeListener() {
-            @Override
-            public void onSearchTextChanged(String oldQuery, final String newQuery) {
-
-                //get suggestions based on newQuery
-                List<SearchSuggestion> suggestions = new ArrayList<SearchSuggestion>();
-                suggestions.add(0, new SearchSuggestion() {
-                    @Override
-                    public String getBody() {
-                        return "Teste";
-                    }
-
-                    @Override
-                    public int describeContents() {
-                        return 0;
-                    }
-
-                    @Override
-                    public void writeToParcel(Parcel dest, int flags) {
-
-                    }
-                });
-
-                //pass them on to the search view
-                mSearchView.swapSuggestions(suggestions);
-            }
-        });
-
-        mSearchView.setOnMenuItemClickListener(new FloatingSearchView.OnMenuItemClickListener() {
-            @Override
-            public void onActionMenuItemSelected(MenuItem item) {
-
-            }
-        });
+        AutoCompleteTextView atv = (AutoCompleteTextView) findViewById(R.id.atResult);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, testeLista);
+        atv.setAdapter(adapter);
     }
 
-    private void configuraMenu(){
-        FloatingActionMenu fam = (FloatingActionMenu) findViewById(R.id.menu);
-        fam.setIconAnimated(false);
-    }
 
     private void carregaMapa(){
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
@@ -111,16 +102,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 .build();
     }
 
-    public void sair(View view){
-        LoginManager.getInstance().logOut();
-        goLogin();
-    }
 
-    private void goLogin() {
-        Intent intent = new Intent(this, LoginActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
-    }
 
     private void setMapLocation(Location l) {
         if(map != null && l != null){
@@ -134,6 +116,13 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             map.clear();
             map.addCircle(circle);
         }
+    }
+
+    public void mapTransparency(boolean aplicar){
+        if(aplicar)
+            getSupportFragmentManager().findFragmentById(R.id.map).getView().animate().alpha(0).setDuration(500).start();
+        else
+            getSupportFragmentManager().findFragmentById(R.id.map).getView().animate().alpha(1).setDuration(500).start();
     }
 
     @Override
