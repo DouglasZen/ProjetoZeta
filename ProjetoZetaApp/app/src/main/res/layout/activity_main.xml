@@ -6,7 +6,7 @@
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.app.tarsus.projetozetaapp.MainActivity">
+    tools:context="com.app.tarsus.projetozetaapp.layout.MainActivity">
 
     <fragment
         android:id="@+id/map"
@@ -47,16 +47,29 @@
 
     </fragment>
 
+    <fragment
+        android:id="@+id/btAddHashtag"
+        class="layout.AddHashtagFragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp">
 
-    <!--<fragment
+    </fragment>
+
+
+    <fragment
         android:id="@+id/card"
-        class="com.app.tarsus.projetozetaapp.HashtagFragment"
+        class="layout.HashtagFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentBottom="true"
         tools:layout="@layout/fragment_hashtag"
-
-        />-->
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"/>
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbarTitulo"

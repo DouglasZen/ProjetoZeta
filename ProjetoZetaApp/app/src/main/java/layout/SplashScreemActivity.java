@@ -1,0 +1,57 @@
+package layout;
+
+import android.content.Intent;
+import android.os.Handler;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
+
+import com.app.tarsus.projetozetaapp.R;
+import com.facebook.AccessToken;
+
+public class SplashScreemActivity extends AppCompatActivity {
+    private ImageView image;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_splash_screem);
+
+        image = (ImageView) findViewById(R.id.imageCirculo);
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                // COLOCAR A VERIFICACAO DE USUÁRIO LOGADO AQUI
+                if(AccessToken.getCurrentAccessToken() == null) {
+                    Animation animation = AnimationUtils.loadAnimation(SplashScreemActivity.this, R.anim.zoom_circle);
+                    image.startAnimation(animation);
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            Intent i = new Intent(SplashScreemActivity.this, LoginActivity.class);
+                            startActivity(i);
+                        }
+                    }, 0);
+                }else{
+                    Animation animation = AnimationUtils.loadAnimation(SplashScreemActivity.this, R.anim.zoom_circle);
+                    image.startAnimation(animation);
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            goMain();
+                        }
+                    }, 150);
+                }
+                //overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+            }
+        }, 2000);
+    }
+
+    private void goMain(){
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+    }
+}
