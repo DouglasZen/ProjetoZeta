@@ -31,8 +31,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private GoogleApiClient mGoogleApiClient;
     protected GoogleMap map;
-    Toolbar toolbar;
-    TextView titulo;
 
     private static final String[] testeLista = new String[]{"amora", "maçã", "laranja", "pera"};
 
@@ -40,8 +38,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        toolbar = (Toolbar) findViewById(R.id.toolbarTitulo);
-        titulo = (TextView) findViewById(R.id.labelTitulo);
 
         carregaMapa();
         configuraShearchBar();
@@ -50,20 +46,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     }
 
-    public void showToobar(boolean show){
-        if(show) {
-            toolbar.setVisibility(View.VISIBLE);
-            titulo.setVisibility(View.VISIBLE);
-        }else{
-            toolbar.setVisibility(View.INVISIBLE);
-            titulo.setVisibility(View.INVISIBLE);
-        }
-    }
-
     private void configuraShearchBar(){
-        AutoCompleteTextView atv = (AutoCompleteTextView) findViewById(R.id.atResult);
+        /*AutoCompleteTextView atv = (AutoCompleteTextView) findViewById(R.id.atResult);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, testeLista);
-        atv.setAdapter(adapter);
+        atv.setAdapter(adapter);*/
     }
 
 
