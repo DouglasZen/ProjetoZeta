@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:animationCache="false"
     android:clickable="false"
-    tools:context="com.app.tarsus.projetozetaapp.SplashScreemActivity">
+    tools:context="com.app.tarsus.projetozetaapp.layout.SplashScreemActivity">
 
     <ImageView
         android:id="@+id/imageView2"

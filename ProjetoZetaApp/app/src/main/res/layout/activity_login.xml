@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.app.tarsus.projetozetaapp.LoginActivity">
+    tools:context="com.app.tarsus.projetozetaapp.layout.LoginActivity">
 
     <ImageView
         android:id="@+id/imageView6"
