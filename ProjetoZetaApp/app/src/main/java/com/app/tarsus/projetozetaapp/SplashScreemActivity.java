@@ -1,17 +1,16 @@
 package com.app.tarsus.projetozetaapp;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Handler;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
+import android.view.View;
 import android.widget.ImageView;
 
 import com.facebook.AccessToken;
-
-import java.util.Timer;
 
 public class SplashScreemActivity extends AppCompatActivity {
     private ImageView image;
@@ -27,33 +26,17 @@ public class SplashScreemActivity extends AppCompatActivity {
             public void run() {
                 // COLOCAR A VERIFICACAO DE USUÁRIO LOGADO AQUI
                 if(AccessToken.getCurrentAccessToken() == null) {
-                    Animation animation = AnimationUtils.loadAnimation(SplashScreemActivity.this, R.anim.zoom_circle);
-                    image.startAnimation(animation);
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            Intent i = new Intent(SplashScreemActivity.this, LoginActivity.class);
-                            startActivity(i);
-                        }
-                    }, 0);
+                    Intent i = new Intent(SplashScreemActivity.this, LoginActivity.class);
+                    ActivityOptionsCompat opts = ActivityOptionsCompat.makeCustomAnimation(SplashScreemActivity.this, R.anim.fade_in, R.anim.fade_out);
+                    ActivityCompat.startActivity(SplashScreemActivity.this, i, opts.toBundle());
+
                 }else{
-                    Animation animation = AnimationUtils.loadAnimation(SplashScreemActivity.this, R.anim.zoom_circle);
-                    image.startAnimation(animation);
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            goMain();
-                        }
-                    }, 150);
+                    Intent i = new Intent(SplashScreemActivity.this, MainActivity.class);
+                    ActivityOptionsCompat opts = ActivityOptionsCompat.makeCustomAnimation(SplashScreemActivity.this, R.anim.fade_in, R.anim.fade_out);
+                    ActivityCompat.startActivity(SplashScreemActivity.this, i, opts.toBundle());
                 }
-                //overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+
             }
         }, 2000);
-    }
-
-    private void goMain(){
-        Intent intent = new Intent(this, MainActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
     }
 }
