@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,6 +22,7 @@ import com.app.tarsus.projetozetaapp.adapter.RecyclerAdapterCard;
 
 public class HashtagFragment extends Fragment {
     private View view;
+    private Toolbar toolbar;
     private LinearLayout linear;
     private int height;
     private int width;
@@ -38,30 +40,28 @@ public class HashtagFragment extends Fragment {
         setFragmentPosition();
         setFragmentAnimations();
 
-        view.setOnTouchListener(new View.OnTouchListener() {
+
+        toolbar.setOnTouchListener(new View.OnTouchListener() {
             public boolean onTouch(final View v, MotionEvent event) {
-                v.setBackgroundColor(Color.TRANSPARENT);
-                Log.i("teste ===== ", "teste");
+                view.setBackgroundColor(Color.TRANSPARENT);
                 switch (event.getAction()) {
                     // Animacao para toda a acao de touch no fragmento
                     case MotionEvent.ACTION_DOWN:
                         break;
                     case MotionEvent.ACTION_MOVE:
-                        v.animate().y(event.getRawY()).setDuration(0).start();
+                        view.animate().y(event.getRawY()).setDuration(0).start();
                         break;
                     // Animacao ao soltar o fragmento
                     case MotionEvent.ACTION_UP:
-                        if(v.getY() < (posicaoInicial / 2)) {
-                            v.animate().y(telaInteira).setDuration(500).start();
-                            v.setBackground(transFimPreto);
+                        if(view.getY() < (posicaoInicial / 2)) {
+                            view.animate().y(telaInteira).setDuration(500).start();
+                            view.setBackground(transFimPreto);
                             transFimPreto.startTransition(500);
                             ((MainActivity) getActivity()).mapTransparency(true);
-                            ((MainActivity) getActivity()).showToobar(true);
                             initCards();
                         }else {
-                            v.animate().y(posicaoInicial).setDuration(500).start();
+                            view.animate().y(posicaoInicial).setDuration(500).start();
                             ((MainActivity) getActivity()).mapTransparency(false);
-                            ((MainActivity) getActivity()).showToobar(false);
                         }
                         break;
                     default:
@@ -70,12 +70,14 @@ public class HashtagFragment extends Fragment {
                 return true;
             }
         });
+
         return view;
     }
 
     private void initialize(LayoutInflater inflater, ViewGroup container){
         view = inflater.inflate(R.layout.fragment_hashtag, container, false);
         linear = (LinearLayout) view.findViewById(R.id.card_fragment);
+        toolbar = (Toolbar) view.findViewById(R.id.toolbarFragmentCards);
     }
 
     private void getTamanhoDisplay(){
@@ -101,18 +103,10 @@ public class HashtagFragment extends Fragment {
 
     private void initCards(){
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerCard);
-
-        recyclerView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                
-            }
-        });
-
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
-        adapter = new RecyclerAdapterCard(dataArray);
+        adapter = new RecyclerAdapterCard(dataArray, getActivity(), posicaoInicial, telaInteira, transFimPreto, view);
         recyclerView.setAdapter(adapter);
     }
 }
