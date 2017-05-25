@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.app.tarsus.projetozetaapp.R;
+import com.app.tarsus.projetozetaapp.util.Constants;
 
 import layout.MainActivity;
 
@@ -23,14 +24,16 @@ public class RecyclerAdapterCard extends RecyclerView.Adapter<RecyclerAdapterCar
     private int telaInteira;
     private TransitionDrawable transFimPreto;
     private View fragment;
+    private RecyclerView recyclerView;
 
-    public RecyclerAdapterCard(String[] dataSource, FragmentActivity activity, int posicaoInicial, int telaInteira, TransitionDrawable transFimPreto, View view){
+    public RecyclerAdapterCard(String[] dataSource, FragmentActivity activity, int posicaoInicial, int telaInteira, TransitionDrawable transFimPreto, View view, RecyclerView recyclerView){
         this.dataSource = dataSource;
         this.activity = activity;
         this.posicaoInicial = posicaoInicial;
         this.telaInteira = telaInteira;
         this.transFimPreto = transFimPreto;
         this.fragment = view;
+        this.recyclerView = recyclerView;
     }
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -39,37 +42,12 @@ public class RecyclerAdapterCard extends RecyclerView.Adapter<RecyclerAdapterCar
 
         ViewHolder viewHolder = new ViewHolder(view);
 
-
         return viewHolder;
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
         holder.textView.setText(dataSource[position]);
-        if(position == 0) {
-            holder.itemView.setOnTouchListener(new View.OnTouchListener() {
-                public boolean onTouch(final View v, MotionEvent event) {
-                    Log.i("teste", event.getY() + "     " + event.getRawY());
-                    fragment.setBackgroundColor(Color.TRANSPARENT);
-                    switch (event.getAction()) {
-                        // Animacao para toda a acao de touch no fragmento
-                        case MotionEvent.ACTION_DOWN:
-                            break;
-                        case MotionEvent.ACTION_MOVE:
-                            fragment.animate().y(event.getY()).setDuration(0).start();
-                            break;
-                        // Animacao ao soltar o fragmento
-                        case MotionEvent.ACTION_POINTER_DOWN:
-                            fragment.animate().y(posicaoInicial).setDuration(500).start();
-                            ((MainActivity) activity).mapTransparency(false);
-                            break;
-                        default:
-                            return false;
-                    }
-                    return true;
-                }
-            });
-        }
     }
 
     @Override
